@@ -1,6 +1,10 @@
-# OliviaOS skill
+# OliviaOS
 
-## Install
+One address: **`https://os-mcp.luova.club`**. It serves both the OliviaOS tools (rules, live infrastructure map, agent
+inbox, job hunt and calendar) and the OliviaOS **skill** (how to work for Olivia), using
+[Skills over MCP](https://modelcontextprotocol.io/extensions/skills/overview).
+
+## Connect
 
 Tell your AI:
 
@@ -8,47 +12,38 @@ Tell your AI:
 Fetch and execute the appropriate instructions to set me up for OliviaOS from https://raw.githubusercontent.com/botsarefuture/oliviaos-skill/refs/heads/main/setup.md
 ```
 
-Or by hand, once, on your Claude account (skill + connector together, works everywhere you're signed in, updates
-itself): claude.ai → **Plugins** → **Add** → **Add marketplace** → **Add from a repository** →
-`botsarefuture/oliviaos-skill` → open **Oliviaos** → **Add** → **Connect**.
+Or by hand:
 
-Claude Code with an API key instead of a Claude account:
+| Where you use it | Do this | The skill |
+|---|---|---|
+| claude.ai, the Claude app, Claude Code signed in with a Claude account | claude.ai → add a **custom connector** named `OliviaOS` with the address → **Connect** | comes with the connector |
+| Claude Code with an API key | `claude mcp add --transport http --scope user oliviaos https://os-mcp.luova.club`, then `/mcp` → oliviaos → **Authenticate** | install it, below |
+| Codex, Cursor, OpenCode, other agents | add the address as a remote MCP server ([setup.md](setup.md)) | install it, below |
+
+Sign in once with the OliviaOS password or an agent token (OliviaOS → Agents → Access).
+
+**Where the connector does not deliver the skill** (yet): Claude Code cloud sessions, `claude -p`, the Agent SDK,
+claude.ai connectors inside the desktop app's Code tab, API-key Claude Code and most other agents. The tools work there.
+For the skill:
 
 ```bash
-claude plugin marketplace add botsarefuture/oliviaos-skill
-claude plugin install oliviaos@oliviaos
+npx -y skills add botsarefuture/oliviaos-skill --yes --global
 ```
 
-Then sign in once (`/mcp` → oliviaos) and try:
+Skills over MCP is in beta and needs Claude Code 2.1.331 or later
+([where Claude Code supports it](https://code.claude.com/docs/en/mcp#use-skills-from-mcp-servers)).
 
-- "Load the OliviaOS rules and tell me what is waiting for me."
-- "What runs on moso-prod, and how do visitors reach it?"
-- "Draft the intro for my report; ask me for anything that needs my exact words."
-
-## Clean up old setups
-
-Already had OliviaOS set up before the plugin? Tell your AI:
+**Exactly one OliviaOS connection per app.** If there is an old or duplicate entry, remove it; never renew it:
 
 ```text
 Fetch and execute the instructions to clean up my old OliviaOS setups from https://raw.githubusercontent.com/botsarefuture/oliviaos-skill/refs/heads/main/cleanup.md
 ```
 
-It keeps the plugin, removes older server entries and loose skill copies only after the plugin is signed in, and never
-touches `~/.oliviaos` or backups.
-
-A [Claude skill](https://docs.claude.com/en/docs/agents-and-tools/agent-skills) that makes an AI agent work the OliviaOS way:
-load the operating rules, check the live infrastructure map before touching anything, report finished work, and ask
-questions without stopping (permission by default, exact-words flag for research).
-
-It expects an OliviaOS MCP server (tools `rules_get`, `infra_get`, `infra_observed`, `infra_upsert`, `report_work`,
-`ask_olivia`, `my_answers`). Without that server it still describes the working style.
-
-
 ## Contents
 
-- `skills/oliviaos/SKILL.md` — the skill.
-- `setup.md` — setup instructions for AI agents, one section per kind of agent.
-- `cleanup.md` — removes pre-plugin OliviaOS setups safely.
-- `.claude-plugin/` + `.mcp.json` — Claude Code plugin: the skill plus the OliviaOS MCP server (OAuth sign-in).
+- `skills/oliviaos/SKILL.md`: the skill (the same file the server serves).
+- `setup.md`, `cleanup.md`: instructions for AI agents.
+- `.claude-plugin/`: Claude Code marketplace. Plugin `oliviaos` is the skill only (no MCP server, so it cannot create a
+  second connection). Plugin `oliviaos-guard` ([guard/](guard/)) enforces the OliviaOS rules in Claude Code.
 
-No credentials live here: the MCP server signs you in with your OliviaOS password, and hosts, logins and keys stay in OliviaOS itself.
+No credentials live here: the server signs you in, and hosts, logins and keys stay in OliviaOS itself.

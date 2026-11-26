@@ -1,8 +1,0 @@
-{
-  "mcpServers": {
-    "oliviaos": {
-      "type": "http",
-      "url": "https://os-mcp.luova.club"
-    }
-  }
-}

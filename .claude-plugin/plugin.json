@@ -1,7 +1,7 @@
 {
   "name": "oliviaos",
-  "version": "1.2.0",
-  "description": "Work as an OliviaOS agent: Olivia's operating rules, live infrastructure map, agent inbox (report work, ask questions). Includes the OliviaOS MCP server (sign in once with OAuth).",
+  "version": "2.0.0",
+  "description": "The OliviaOS skill, for clients that do not get it from the connector. No MCP server: connect https://os-mcp.luova.club separately.",
   "author": {
     "name": "Olivia"
   },

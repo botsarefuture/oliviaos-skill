@@ -59,11 +59,18 @@ English, matching her.
 
 ## Connecting (for whoever sets the agent up)
 
-- **Claude Code / any MCP client:** in OliviaOS → Agents → Access, create a token
-  for this agent and add the server with the shown command
-  (`claude mcp add --transport http --scope user oliviaos <url> --header "Authorization: Bearer <token>"`).
-- **claude.ai, the Claude app, ChatGPT:** add a custom connector with the sign-in
-  URL shown in Agents → Access and sign in once with the OliviaOS password.
-- **Cloud sessions:** put the token in the environment as `OLIVIAOS_TOKEN` and add
-  the server to the repo's `.mcp.json` with header
+One address: `https://os-mcp.luova.club`. Keep exactly one OliviaOS connection
+per app. Remove an old or duplicate entry; never renew it.
+
+- **claude.ai, the Claude app, Claude Code signed in with a Claude account:** add
+  it as a custom connector and sign in once (OliviaOS password or agent token).
+  The tools and this skill both come from the connector.
+- **Claude Code with an API key, Codex, Cursor, OpenCode and other agents:** add
+  it as a remote (HTTP) MCP server; sign in with OAuth, or send
+  `Authorization: Bearer <agent token>` (OliviaOS → Agents → Access).
+- **A client that does not load skills over MCP** (also cloud sessions,
+  `claude -p` and connectors in the Desktop app's Code tab): the tools work; get
+  this skill with `npx skills add botsarefuture/oliviaos-skill`.
+- **Cloud sessions without the connector:** put the token in the environment as
+  `OLIVIAOS_TOKEN` and add the server to the repo's `.mcp.json` with header
   `Authorization: Bearer ${OLIVIAOS_TOKEN}`.

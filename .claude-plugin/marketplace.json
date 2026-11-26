@@ -4,13 +4,13 @@
     "name": "Olivia"
   },
   "metadata": {
-    "description": "OliviaOS for AI agents: skill + MCP server, and the oliviaos-guard mod that enforces the rules."
+    "description": "OliviaOS for AI agents: the skill, and the oliviaos-guard mod that enforces the rules."
   },
   "plugins": [
     {
       "name": "oliviaos",
       "source": "./",
-      "description": "OliviaOS skill plus the OliviaOS MCP server (rules, live infra map, agent inbox). Sign in once with your OliviaOS password."
+      "description": "The OliviaOS skill only, for clients that do not get it from the custom connector https://os-mcp.luova.club. No MCP server."
     },
     {
       "name": "oliviaos-guard",
