@@ -9,6 +9,10 @@ It expects an OliviaOS MCP server (tools `rules_get`, `infra_get`, `infra_observ
 
 ## Install
 
+Quickest: paste [INSTALL_PROMPT.md](INSTALL_PROMPT.md) into your AI and it installs everything.
+
+By hand:
+
 Claude Code (all your projects):
 
 ```bash
