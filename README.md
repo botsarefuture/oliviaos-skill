@@ -13,7 +13,13 @@ Or in Claude Code:
 ```bash
 claude plugin marketplace add botsarefuture/oliviaos-skill
 claude plugin install oliviaos@oliviaos
+claude plugin install oliviaos-guard@oliviaos
 ```
+
+`oliviaos` is the skill and MCP server. `oliviaos-guard` is the mod that enforces the
+rules in every session (hard stops, logging and reporting every change and block,
+autonomy, night guard). Install both, or only the one you want. The guard reads its
+rules live from the skill's `rules_get`.
 
 (inside Claude Code 2.1.275+: `/plugin install oliviaos --marketplace botsarefuture/oliviaos-skill`)
 

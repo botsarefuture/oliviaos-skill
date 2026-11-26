@@ -1,0 +1,12 @@
+{
+  "name": "oliviaos-guard",
+  "version": "0.2.0",
+  "description": "Enforces the OliviaOS Rule: blocks HARD STOPS, auto-logs state changes to decisions.md, carries the rule into every subagent and session brief.",
+  "types": "./types/index.d.ts",
+  "license": "MIT",
+  "author": {
+    "name": "Olivia"
+  },
+  "homepage": "https://github.com/botsarefuture/oliviaos-skill",
+  "repository": "https://github.com/botsarefuture/oliviaos-skill"
+}
