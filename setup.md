@@ -46,10 +46,11 @@ or token) or to disable it there; never present it as something to renew or as a
 ```
 claude plugin marketplace add botsarefuture/oliviaos-skill
 claude plugin install oliviaos@oliviaos
-claude mcp add --transport http --scope user oliviaos https://os-mcp.luova.club
 ```
 
-Then tell the user to run `/reload-plugins`, then `/mcp` → **oliviaos** → **Authenticate**, and sign in in the browser.
+The plugin brings both the skill and the server; do not add `oliviaos` separately with `claude mcp add`.
+
+Then tell the user to run `/reload-plugins`, then `/mcp` → **plugin:oliviaos:oliviaos** → **Authenticate**, and sign in in the browser.
 A cloud session that cannot open a browser uses an agent token instead: the user creates one in OliviaOS → Agents →
 Access, stores it as the environment secret `OLIVIAOS_TOKEN`, and the repository's `.mcp.json` gets
 `{ "mcpServers": { "oliviaos": { "type": "http", "url": "https://os-mcp.luova.club", "headers": { "Authorization": "Bearer ${OLIVIAOS_TOKEN}" } } } }`.

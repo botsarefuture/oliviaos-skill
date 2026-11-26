@@ -152,8 +152,11 @@ const awakeNow = () => Date.now() - lastPromptAt < AWAKE_MS
 /** Live rules: OliviaOS rules_get first, then ~/.oliviaos/RULES.md. */
 async function loadRules($: EngineInterface): Promise<string> {
   rulesTriedAt = Date.now()
-  for (const server of SERVERS) {
+  for (const name of SERVERS) {
     try {
+      // connect() waits for a server that is still starting, so the first prompt gets the live rules.
+      const c: any = await $.mcp.connect(name)
+      const server = c?.server ?? name
       const res = await $.mcp.call(server, 'rules_get', {})
       if (!res.isError) {
         const text = res.content.map((c: any) => (c.type === 'text' ? c.text : '')).join('')
@@ -298,6 +301,10 @@ export const register: Register = on => {
 
   // 5: autonomy always, night rules 23–08 Helsinki, in the system prompt.
   on('prompt.compose', async ($, e, next) => {
+    if (!rulesFromMcp) {
+      const t = await loadRules($)
+      if (t) liveRules = t
+    }
     const r = await next(e)
     // The MCP server often connects after session.start: retry for the live rules, at most every 10 s.
     if (!rulesFromMcp && Date.now() - rulesTriedAt > 10_000) void loadRules($).then(t => { if (t) liveRules = t }).catch(() => {})
