@@ -26,7 +26,7 @@ password; otherwise guide them and confirm each step.
 2. Name `OliviaOS`, URL `https://os-mcp.luova.club` → **Add** → **Connect**.
 3. Sign in on the OliviaOS page with the password or an agent token (OliviaOS → Agents → Access).
 
-The connector's page lists the `oliviaos` skill. Nothing else to install: do **not** also add a plugin that brings an
+Claude reads the `oliviaos` skill from the connector. Nothing else to install: do **not** also add a plugin that brings an
 OliviaOS server, and do not `claude mcp add` it.
 
 In Claude Code check `claude mcp list`: one line `claude.ai OliviaOS … ✔ Connected`. In an interactive session on
