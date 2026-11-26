@@ -1,0 +1,12 @@
+{
+  "name": "oliviaos",
+  "owner": { "name": "Olivia" },
+  "metadata": { "description": "OliviaOS for AI agents: skill + MCP server." },
+  "plugins": [
+    {
+      "name": "oliviaos",
+      "source": "./",
+      "description": "OliviaOS skill plus the OliviaOS MCP server (rules, live infra map, agent inbox). Sign in once with your OliviaOS password."
+    }
+  ]
+}

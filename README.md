@@ -5,16 +5,19 @@
 Tell your AI:
 
 ```text
-Fetch and follow instructions from https://raw.githubusercontent.com/botsarefuture/oliviaos-skill/refs/heads/main/INSTALL.md
+Fetch and execute the appropriate instructions to set me up for OliviaOS from https://raw.githubusercontent.com/botsarefuture/oliviaos-skill/refs/heads/main/setup.md
 ```
 
-Or in a terminal:
+Or in Claude Code:
 
 ```bash
-npx skills add botsarefuture/oliviaos-skill
+claude plugin marketplace add botsarefuture/oliviaos-skill
+claude plugin install oliviaos@oliviaos
 ```
 
-Then try:
+(inside Claude Code 2.1.275+: `/plugin install oliviaos --marketplace botsarefuture/oliviaos-skill`)
+
+Then sign in once (`/mcp` → oliviaos) and try:
 
 - "Load the OliviaOS rules and tell me what is waiting for me."
 - "What runs on moso-prod, and how do visitors reach it?"
@@ -31,6 +34,7 @@ It expects an OliviaOS MCP server (tools `rules_get`, `infra_get`, `infra_observ
 ## Contents
 
 - `skills/oliviaos/SKILL.md` — the skill.
-- `INSTALL.md` — step-by-step install written for an AI agent to follow.
+- `setup.md` — setup instructions for AI agents, one section per kind of agent.
+- `.claude-plugin/` + `.mcp.json` — Claude Code plugin: the skill plus the OliviaOS MCP server (OAuth sign-in).
 
-No private details live here: hosts, addresses and credentials stay in OliviaOS itself.
+No credentials live here: the MCP server signs you in with your OliviaOS password, and hosts, logins and keys stay in OliviaOS itself.
