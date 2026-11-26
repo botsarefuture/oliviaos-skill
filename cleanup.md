@@ -18,13 +18,15 @@ only working access.
 
 Collect everything below that exists:
 
-- **Old MCP servers:** in `claude mcp list`, any server whose name contains `oliviaos` and does **not** start with
-  `plugin:`. Note its scope with `claude mcp get <name>` (user, local or project).
+- **Old MCP servers:** in `claude mcp list`, any server whose name contains `oliviaos`, does **not** start with
+  `plugin:`, and whose URL is **not** on `os-mcp.luova.club` (old setups used a home-network or tailnet address with
+  `/mcp`). A server on `https://os-mcp.luova.club` is current: keep it. Note each old one's scope with
+  `claude mcp get <name>` (user, local or project).
 - **Loose skill copies** (the plugin already ships the skill): `~/.claude/skills/oliviaos`,
   `~/.agents/skills/oliviaos`, and `.claude/skills/oliviaos` in the current project. Note whether each is a symlink.
 - **Other agents' configs** (Codex `~/.codex/config.toml`, Cursor `.cursor/mcp.json`, VS Code `.vscode/mcp.json`,
-  OpenCode `~/.config/opencode/opencode.jsonc`): any `oliviaos` MCP entry whose URL is not
-  `https://os-mcp.luova.club/mcp-public` or `https://os-mcp.luova.club/mcp-agents`.
+  OpenCode `~/.config/opencode/opencode.jsonc`): any `oliviaos` MCP entry whose URL is not on
+  `os-mcp.luova.club`.
 
 Show the user the list in one short message, then continue (no need to wait for a reply unless the list contains
 something not described here).

@@ -1,10 +1,17 @@
 {
   "name": "oliviaos",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Work as an OliviaOS agent: Olivia's operating rules, live infrastructure map, agent inbox (report work, ask questions). Includes the OliviaOS MCP server (sign in once with OAuth).",
-  "author": { "name": "Olivia" },
+  "author": {
+    "name": "Olivia"
+  },
   "homepage": "https://github.com/botsarefuture/oliviaos-skill",
   "repository": "https://github.com/botsarefuture/oliviaos-skill",
   "license": "MIT",
-  "keywords": ["oliviaos", "infrastructure", "mcp", "agents"]
+  "keywords": [
+    "oliviaos",
+    "infrastructure",
+    "mcp",
+    "agents"
+  ]
 }

@@ -12,7 +12,7 @@ First work out which kind of agent you are, then follow ONLY that section:
 - You are ChatGPT → **ChatGPT**.
 - Anything else that can run commands (Codex, Cursor, OpenCode, Copilot, …) → **Other agents**.
 
-The MCP server URL is `https://os-mcp.luova.club/mcp-public`.
+The MCP server URL is `https://os-mcp.luova.club`. It accepts a one-time browser sign-in (OliviaOS password, or an agent token pasted instead of the password) and agent tokens sent as `Authorization: Bearer`.
 
 ---
 
@@ -39,7 +39,7 @@ sessions connect with an agent token instead: they create one in OliviaOS → Ag
 the environment secret `OLIVIAOS_TOKEN`, and the repository's `.mcp.json` gets:
 
 ```json
-{ "mcpServers": { "oliviaos": { "type": "http", "url": "https://os-mcp.luova.club/mcp-agents", "headers": { "Authorization": "Bearer ${OLIVIAOS_TOKEN}" } } } }
+{ "mcpServers": { "oliviaos": { "type": "http", "url": "https://os-mcp.luova.club", "headers": { "Authorization": "Bearer ${OLIVIAOS_TOKEN}" } } } }
 ```
 
 Never put the token itself in a file or in chat.
@@ -49,7 +49,7 @@ Never put the token itself in a file or in chat.
 You cannot install these yourself here, so guide the user through two settings, one at a time, and confirm each:
 
 1. **Connector:** Settings → Connectors → *Add custom connector*. Name `OliviaOS`, URL
-   `https://os-mcp.luova.club/mcp-public`. Connect, and sign in with the OliviaOS password.
+   `https://os-mcp.luova.club`. Connect, and sign in with the OliviaOS password.
    If an OliviaOS connector already exists but you (the agent) do not see `rules_get` or `infra_get` among its tools,
    it was added before those tools existed: tell the user to disconnect it and connect it again so the tool list
    refreshes.
@@ -61,7 +61,7 @@ Then tell the user to start a new chat; the first thing to do there is call `rul
 ## ChatGPT
 
 Guide the user: Settings → Connectors → *Advanced* → enable developer mode, then *Create* a connector named `OliviaOS`
-with URL `https://os-mcp.luova.club/mcp-public` and OAuth authentication, and sign in with the OliviaOS password.
+with URL `https://os-mcp.luova.club` and OAuth authentication, and sign in with the OliviaOS password.
 ChatGPT has no skills: paste the contents of
 `https://raw.githubusercontent.com/botsarefuture/oliviaos-skill/refs/heads/main/skills/oliviaos/SKILL.md` into the
 project or custom instructions instead.
@@ -76,11 +76,11 @@ npx -y skills add botsarefuture/oliviaos-skill --yes --global
 
 Then register the MCP server in your agent's config; sign-in starts automatically on first use.
 
-- **Codex:** `codex mcp add oliviaos --url https://os-mcp.luova.club/mcp-public` then `codex mcp login oliviaos`
-- **Cursor / GitHub Copilot:** add `"oliviaos": { "url": "https://os-mcp.luova.club/mcp-public" }` under `"mcpServers"` in
+- **Codex:** `codex mcp add oliviaos --url https://os-mcp.luova.club` then `codex mcp login oliviaos`
+- **Cursor / GitHub Copilot:** add `"oliviaos": { "url": "https://os-mcp.luova.club" }` under `"mcpServers"` in
   `.cursor/mcp.json` or `.vscode/mcp.json`
 - **OpenCode** (`~/.config/opencode/opencode.jsonc`, under `"mcp"`):
-  `"oliviaos": { "type": "remote", "url": "https://os-mcp.luova.club/mcp-public", "enabled": true, "oauth": {} }`, then
+  `"oliviaos": { "type": "remote", "url": "https://os-mcp.luova.club", "enabled": true, "oauth": {} }`, then
   `opencode mcp auth oliviaos`
 
 ---

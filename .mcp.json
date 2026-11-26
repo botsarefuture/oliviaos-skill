@@ -2,7 +2,7 @@
   "mcpServers": {
     "oliviaos": {
       "type": "http",
-      "url": "https://os-mcp.luova.club/mcp-public"
+      "url": "https://os-mcp.luova.club"
     }
   }
 }
