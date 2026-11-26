@@ -59,6 +59,6 @@ Fetch and execute the instructions to clean up my old OliviaOS setups from https
 - `skills/oliviaos/SKILL.md`: the skill (the same file the server serves).
 - `setup.md`, `cleanup.md`: instructions for AI agents.
 - `.claude-plugin/`: Claude Code marketplace. Plugin `oliviaos` is the skill only (no MCP server, so it cannot create a
-  second connection). Plugin `oliviaos-guard` ([guard/](guard/)) enforces the OliviaOS rules in Claude Code.
+  second connection). Plugin `oliviaos-guard` (from [its own repository](https://github.com/botsarefuture/oliviaos-guard)) enforces the OliviaOS rules in Claude Code.
 
 No credentials live here: the server signs you in, and hosts, logins and keys stay in OliviaOS itself.
