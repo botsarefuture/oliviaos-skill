@@ -19,7 +19,7 @@
         "repo": "botsarefuture/oliviaos-guard"
       },
       "description": "Enforces the OliviaOS Rule in every Claude Code session: blocks hard stops, logs and reports every state change and block to decisions.md and OliviaOS, keeps agents autonomous, night guard 23-08 Helsinki. Takes its rules live from the OliviaOS skill's rules_get.",
-      "version": "0.8.0"
+      "version": "0.9.0"
     }
   ]
 }
