@@ -1,5 +1,11 @@
 # OliviaOS skill
 
+**Paste this one line into your AI** (Claude Code or any agent that can run commands):
+
+```text
+Install the OliviaOS skill: clone https://github.com/botsarefuture/oliviaos-skill to a temp dir, copy its skills/oliviaos folder to ~/.claude/skills/oliviaos (replace if present), delete the clone, then ask me for my OliviaOS MCP URL and token and run: claude mcp add --transport http --scope user oliviaos <URL> --header "Authorization: Bearer <TOKEN>" (remove an existing oliviaos server first; never echo the token).
+```
+
 A [Claude skill](https://docs.claude.com/en/docs/agents-and-tools/agent-skills) that makes an AI agent work the OliviaOS way:
 load the operating rules, check the live infrastructure map before touching anything, report finished work, and ask
 questions without stopping (permission by default, exact-words flag for research).
