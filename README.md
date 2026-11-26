@@ -8,20 +8,16 @@ Tell your AI:
 Fetch and execute the appropriate instructions to set me up for OliviaOS from https://raw.githubusercontent.com/botsarefuture/oliviaos-skill/refs/heads/main/setup.md
 ```
 
-Or in Claude Code:
+Or by hand, once, on your Claude account (skill + connector together, works everywhere you're signed in, updates
+itself): claude.ai → **Plugins** → **Add** → **Add marketplace** → **Add from a repository** →
+`botsarefuture/oliviaos-skill` → open **Oliviaos** → **Add** → **Connect**.
+
+Claude Code with an API key instead of a Claude account:
 
 ```bash
 claude plugin marketplace add botsarefuture/oliviaos-skill
 claude plugin install oliviaos@oliviaos
-claude plugin install oliviaos-guard@oliviaos
 ```
-
-`oliviaos` is the skill and MCP server. `oliviaos-guard` is the mod that enforces the
-rules in every session (hard stops, logging and reporting every change and block,
-autonomy, night guard). Install both, or only the one you want. The guard reads its
-rules live from the skill's `rules_get`.
-
-(inside Claude Code 2.1.275+: `/plugin install oliviaos --marketplace botsarefuture/oliviaos-skill`)
 
 Then sign in once (`/mcp` → oliviaos) and try:
 

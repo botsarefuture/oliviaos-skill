@@ -1,83 +1,76 @@
-These are the official OliviaOS setup instructions for AI agents. They install the OliviaOS skill (how to work for
-Olivia) and connect the OliviaOS MCP server (her operating rules, live infrastructure map, and agent inbox).
+These are the official OliviaOS setup instructions for AI agents. Everything comes as **one plugin**, `oliviaos`, from
+the GitHub marketplace `botsarefuture/oliviaos-skill`. Adding it gives both parts at once:
 
-Do every step yourself by running the commands. Do not ask the user to run commands, and never ask for or accept a
-token in chat: OliviaOS uses a one-time browser sign-in (OAuth) with the user's OliviaOS password.
+- the **skill** (how to work for Olivia), and
+- the **connector** to the OliviaOS MCP server `https://os-mcp.luova.club` (her rules, live infrastructure map, agent
+  inbox). Sign-in is a one-time browser login with the OliviaOS password, or an agent token pasted instead of the
+  password; agent tokens also work as `Authorization: Bearer`.
 
-First work out which kind of agent you are, then follow ONLY that section:
+Rules for every setup:
 
-- You can run shell commands on the user's own computer and a `claude` command exists → **Claude Code**.
-- You are a chat in claude.ai or the Claude desktop/mobile app (even if you have a code sandbox) → **claude.ai / Claude app**. Do not install anything into a sandbox: it disappears after the chat.
-- You are a Claude Code session running in the cloud (claude.ai/code, a remote container) → **Claude Code in the cloud**.
-- You are ChatGPT → **ChatGPT**.
-- Anything else that can run commands (Codex, Cursor, OpenCode, Copilot, …) → **Other agents**.
+1. **Account first.** If the user has a Claude account, both parts go on the **account** (claude.ai → Plugins), not on
+   one computer. Then they work in claude.ai, the desktop and mobile apps, and Claude Code (terminal and cloud) wherever
+   the user is signed in, and the plugin updates itself from GitHub.
+2. **Exactly one OliviaOS connection per app.** Before adding anything, look for existing OliviaOS entries. Never ask the
+   user to "renew", "reconnect" or re-authenticate an old or duplicate entry: remove it (see
+   `https://raw.githubusercontent.com/botsarefuture/oliviaos-skill/refs/heads/main/cleanup.md`) and keep the account one.
+3. Do the steps you can do yourself. Never ask for, print or store a password or token in chat.
 
-The MCP server URL is `https://os-mcp.luova.club`. It accepts a one-time browser sign-in (OliviaOS password, or an agent token pasted instead of the password) and agent tokens sent as `Authorization: Bearer`.
+Work out where you are and follow that section.
 
 ---
 
-## Claude Code
+## Any Claude (claude.ai, Claude app, Claude Code signed in with a Claude account)
 
-Run these two commands. They install the skill and the MCP server together; do not use `npx skills` or `claude mcp add`.
+One step in claude.ai, about a minute. If you can control a browser where the user is signed in to claude.ai, do the
+clicks yourself and let the user type only the password; otherwise guide them and confirm each step.
+
+claude.ai → **Plugins** → **Add** → **Add marketplace** → **Add from a repository** → `botsarefuture/oliviaos-skill`,
+keep *Sync automatically* on → **Sync**. Open **Oliviaos** → **Add** → **Connect**, and sign in with the OliviaOS
+password (or an agent token from OliviaOS → Agents → Access).
+
+That is all: the skill and the connector are now on the account and reach claude.ai, the desktop and mobile apps, and
+Claude Code (terminal and cloud) wherever the user is signed in, and they update themselves from GitHub.
+
+In Claude Code, check with `claude mcp list` and `claude plugin list`: expect `claude.ai oliviaos … ✔ Connected` and the
+plugin `oliviaos@synced`. Do **not** also install the plugin locally (`claude plugin install`) or add `oliviaos` with
+`claude mcp add`; if an older local OliviaOS server or plugin exists, remove it with `cleanup.md`.
+
+Known Claude Code issue (desktop app Code tab, anthropics/claude-code#105053): it may also list
+`plugin:oliviaos:oliviaos` as "Needs authentication". That is the **same** server as `claude.ai oliviaos`, not an old
+setup. Tell the user either to sign it in once (`/mcp` → `plugin:oliviaos:oliviaos` → **Authenticate**, same password
+or token) or to disable it there; never present it as something to renew or as a second installation.
+
+## Claude Code without a Claude account (API key login)
 
 ```
 claude plugin marketplace add botsarefuture/oliviaos-skill
 claude plugin install oliviaos@oliviaos
+claude mcp add --transport http --scope user oliviaos https://os-mcp.luova.club
 ```
 
-If a user-level MCP server called `oliviaos` already exists from an earlier setup (`claude mcp list`), leave it; the
-plugin's server is separate.
-
-Then tell the user to run `/reload-plugins`, then `/mcp`, choose **oliviaos**, and sign in with their OliviaOS password
-in the browser window that opens. After that the tools `rules_get`, `infra_get`, `report_work`, `ask_olivia` and
-`my_answers` are available; the agent's first call in a new session is `rules_get`.
-
-## Claude Code in the cloud
-
-Run the same two commands as above. If the session cannot open a browser for sign-in, tell the user that cloud
-sessions connect with an agent token instead: they create one in OliviaOS → Agents → Access ("Anywhere"), store it as
-the environment secret `OLIVIAOS_TOKEN`, and the repository's `.mcp.json` gets:
-
-```json
-{ "mcpServers": { "oliviaos": { "type": "http", "url": "https://os-mcp.luova.club", "headers": { "Authorization": "Bearer ${OLIVIAOS_TOKEN}" } } } }
-```
-
-Never put the token itself in a file or in chat.
-
-## claude.ai / Claude app
-
-You cannot install these yourself here, so guide the user through two settings, one at a time, and confirm each:
-
-1. **Connector:** Settings → Connectors → *Add custom connector*. Name `OliviaOS`, URL
-   `https://os-mcp.luova.club`. Connect, and sign in with the OliviaOS password.
-   If an OliviaOS connector already exists but you (the agent) do not see `rules_get` or `infra_get` among its tools,
-   it was added before those tools existed: tell the user to disconnect it and connect it again so the tool list
-   refreshes.
-2. **Skill:** download `https://github.com/botsarefuture/oliviaos-skill/releases/latest/download/oliviaos-skill.zip`
-   and upload it in Settings → Capabilities → Skills.
-
-Then tell the user to start a new chat; the first thing to do there is call `rules_get`.
+Then tell the user to run `/reload-plugins`, then `/mcp` → **oliviaos** → **Authenticate**, and sign in in the browser.
+A cloud session that cannot open a browser uses an agent token instead: the user creates one in OliviaOS → Agents →
+Access, stores it as the environment secret `OLIVIAOS_TOKEN`, and the repository's `.mcp.json` gets
+`{ "mcpServers": { "oliviaos": { "type": "http", "url": "https://os-mcp.luova.club", "headers": { "Authorization": "Bearer ${OLIVIAOS_TOKEN}" } } } }`.
 
 ## ChatGPT
 
 Guide the user: Settings → Connectors → *Advanced* → enable developer mode, then *Create* a connector named `OliviaOS`
-with URL `https://os-mcp.luova.club` and OAuth authentication, and sign in with the OliviaOS password.
-ChatGPT has no skills: paste the contents of
+with URL `https://os-mcp.luova.club` and OAuth, and sign in. ChatGPT has no skills: paste the contents of
 `https://raw.githubusercontent.com/botsarefuture/oliviaos-skill/refs/heads/main/skills/oliviaos/SKILL.md` into the
-project or custom instructions instead.
+project or custom instructions.
 
-## Other agents
-
-Install the skill:
+## Other agents (Codex, Cursor, OpenCode, Copilot, …)
 
 ```
 npx -y skills add botsarefuture/oliviaos-skill --yes --global
 ```
 
-Then register the MCP server in your agent's config; sign-in starts automatically on first use.
+Then register the server; sign-in starts on first use:
 
 - **Codex:** `codex mcp add oliviaos --url https://os-mcp.luova.club` then `codex mcp login oliviaos`
-- **Cursor / GitHub Copilot:** add `"oliviaos": { "url": "https://os-mcp.luova.club" }` under `"mcpServers"` in
+- **Cursor / GitHub Copilot:** `"oliviaos": { "url": "https://os-mcp.luova.club" }` under `"mcpServers"` in
   `.cursor/mcp.json` or `.vscode/mcp.json`
 - **OpenCode** (`~/.config/opencode/opencode.jsonc`, under `"mcp"`):
   `"oliviaos": { "type": "remote", "url": "https://os-mcp.luova.club", "enabled": true, "oauth": {} }`, then
@@ -89,10 +82,10 @@ When done, tell the user (fill in what applied):
 
 ```
 ┌─ OliviaOS setup ─────────────────────────────────────┐
-│  ✓ Skill   <where it was installed>                  │
-│  ✓ MCP     <server added / connector to add>         │
-│                                                      │
-│  → Sign in once, then start a new session            │
+│  ✓ Plugin     oliviaos (skill + connector)           │
+│  ✓ Where      <Claude account / this computer>       │
+│  ✓ One OliviaOS connection, no duplicates            │
+│  → Start a new session                               │
 └──────────────────────────────────────────────────────┘
 ```
 

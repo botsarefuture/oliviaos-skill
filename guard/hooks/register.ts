@@ -144,11 +144,14 @@ export function questionVerdict(texts: string[], night: boolean, awake = false):
 let cwd = ''
 let lastPromptAt = 0
 let liveRules = ''
+let rulesFromMcp = false
+let rulesTriedAt = 0
 const AWAKE_MS = 20 * 60 * 1000
 const awakeNow = () => Date.now() - lastPromptAt < AWAKE_MS
 
 /** Live rules: OliviaOS rules_get first, then ~/.oliviaos/RULES.md. */
 async function loadRules($: EngineInterface): Promise<string> {
+  rulesTriedAt = Date.now()
   for (const server of SERVERS) {
     try {
       const res = await $.mcp.call(server, 'rules_get', {})
@@ -156,7 +159,7 @@ async function loadRules($: EngineInterface): Promise<string> {
         const text = res.content.map((c: any) => (c.type === 'text' ? c.text : '')).join('')
         let rules = text
         try { rules = JSON.parse(text).rules ?? text } catch {}
-        if (rules.length > 200) return rules
+        if (rules.length > 200) { rulesFromMcp = true; return rules }
       }
     } catch {}
   }
@@ -213,7 +216,8 @@ export function reportArgs(r: Report) {
   }
 }
 
-const SERVERS = ['plugin:oliviaos:oliviaos', 'oliviaos']
+// The OliviaOS MCP server's name depends on how it was added: the plugin, claude.ai connector, or a plain entry.
+const SERVERS = ['plugin:oliviaos:oliviaos', 'claude.ai oliviaos', 'oliviaos']
 
 /** Sends every queued report to OliviaOS; keeps the ones that fail. */
 async function flush($: EngineInterface) {
@@ -295,6 +299,8 @@ export const register: Register = on => {
   // 5: autonomy always, night rules 23–08 Helsinki, in the system prompt.
   on('prompt.compose', async ($, e, next) => {
     const r = await next(e)
+    // The MCP server often connects after session.start: retry for the live rules, at most every 10 s.
+    if (!rulesFromMcp && Date.now() - rulesTriedAt > 10_000) void loadRules($).then(t => { if (t) liveRules = t }).catch(() => {})
     const extra = [{ id: 'oliviaos-guard:autonomy', text: AUTONOMY, scope: 'session' as const }]
     if (liveRules) extra.push({ id: 'oliviaos-guard:rules', text: `# OliviaOS rules (live, from the OliviaOS skill's rules_get)\n\n${liveRules}`, scope: 'session' as const })
     if (isNight(helsinkiHour())) extra.push({ id: 'oliviaos-guard:night', text: awakeNow() ? `${NIGHT} Olivia is chatting right now, so a plain factual question is fine; approvals still wait for the morning.` : NIGHT, scope: 'session' as const })
