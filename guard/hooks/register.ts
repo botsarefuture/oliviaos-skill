@@ -152,7 +152,7 @@ const awakeNow = () => Date.now() - lastPromptAt < AWAKE_MS
 /** Live rules: OliviaOS rules_get first, then ~/.oliviaos/RULES.md. */
 async function loadRules($: EngineInterface): Promise<string> {
   rulesTriedAt = Date.now()
-  for (const name of SERVERS) {
+  for (const name of await serversWith($, 'rules_get')) {
     try {
       // connect() waits for a server that is still starting, so the first prompt gets the live rules.
       const c: any = await $.mcp.connect(name)
@@ -222,13 +222,25 @@ export function reportArgs(r: Report) {
 // The OliviaOS MCP server's name depends on how it was added: the plugin, claude.ai connector, or a plain entry.
 const SERVERS = ['plugin:oliviaos:oliviaos', 'claude.ai oliviaos', 'oliviaos']
 
+/** Every connected server that has the tool, by the tool list (mcp__<server>__<tool>), then the known names. */
+async function serversWith($: EngineInterface, tool: string): Promise<string[]> {
+  const found: string[] = []
+  try {
+    for (const t of await $.tool.list()) {
+      const m = /^mcp__(.+)__([^_].*)$/.exec(t.name)
+      if (m && m[2] === tool && m[1]) found.push(m[1])
+    }
+  } catch {}
+  return [...new Set([...found, ...SERVERS])]
+}
+
 /** Sends every queued report to OliviaOS; keeps the ones that fail. */
 async function flush($: EngineInterface) {
   const queue = await read($, pending)
   const left: Report[] = []
   for (const r of queue) {
     let ok = false
-    for (const server of SERVERS) {
+    for (const server of await serversWith($, 'report_work')) {
       try {
         const res = await $.mcp.call(server, 'report_work', reportArgs(r))
         if (!res.isError) { ok = true; break }
