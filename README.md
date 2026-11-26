@@ -22,7 +22,7 @@ Or by hand:
 
 Sign in once with the OliviaOS password or an agent token (OliviaOS → Agents → Access).
 
-**Where the connector does not deliver the skill** (yet): Claude Code cloud sessions, `claude -p`, the Agent SDK,
+**Where the connector does not deliver the skill** (yet, per Claude Code's docs): Claude Code cloud sessions, `claude -p`, the Agent SDK,
 claude.ai connectors inside the desktop app's Code tab, API-key Claude Code and most other agents. The tools work there.
 For the skill:
 

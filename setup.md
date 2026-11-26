@@ -32,8 +32,8 @@ OliviaOS server, and do not `claude mcp add` it.
 In Claude Code check `claude mcp list`: one line `claude.ai OliviaOS … ✔ Connected`. In an interactive session on
 2.1.331 or later, `/skills` shows `claude_ai_OliviaOS:oliviaos`.
 
-Cloud sessions, `claude -p`, the Agent SDK and the desktop app's Code tab get the connector's tools but not its skill. If
-the user works there, install the skill too: `claude plugin marketplace add botsarefuture/oliviaos-skill` then
+Claude Code's docs say cloud sessions, `claude -p`, the Agent SDK and connectors in the desktop app do not load a
+connector's skills (the tools work). If the user works there and typing `/` shows no `oliviaos` skill, install it: `claude plugin marketplace add botsarefuture/oliviaos-skill` then
 `claude plugin install oliviaos@oliviaos` (skill only, no second server).
 
 ## Claude Code with an API key (no Claude account)
