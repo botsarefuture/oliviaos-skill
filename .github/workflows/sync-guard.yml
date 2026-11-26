@@ -1,0 +1,43 @@
+# Keeps the oliviaos-guard entry in .claude-plugin/marketplace.json at the guard's
+# latest version. Accounts that added this marketplace on claude.ai re-sync when this
+# repo changes, so a guard release reaches them without a manual "Check for updates".
+name: Sync oliviaos-guard version
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  repository_dispatch:
+    types: [guard-released]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-guard
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read the guard's latest version
+        id: guard
+        run: |
+          v=$(curl -fsSL https://raw.githubusercontent.com/botsarefuture/oliviaos-guard/main/.claude-plugin/plugin.json | jq -r .version)
+          sha=$(curl -fsSL https://api.github.com/repos/botsarefuture/oliviaos-guard/commits/main | jq -r .sha)
+          echo "version=$v" >> "$GITHUB_OUTPUT"
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+      - name: Update the marketplace entry
+        run: |
+          jq --arg v "${{ steps.guard.outputs.version }}" \
+            '(.plugins[] | select(.name == "oliviaos-guard")) |= (.version = $v)' \
+            .claude-plugin/marketplace.json > m.json && mv m.json .claude-plugin/marketplace.json
+      - name: Commit when it changed
+        run: |
+          if git diff --quiet; then echo "Already at ${{ steps.guard.outputs.version }}"; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git commit -am "oliviaos-guard ${{ steps.guard.outputs.version }} (${{ steps.guard.outputs.sha }})"
+          git push
