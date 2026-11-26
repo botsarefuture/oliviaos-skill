@@ -36,6 +36,18 @@ Claude Code's docs say cloud sessions, `claude -p`, the Agent SDK and connectors
 connector's skills (the tools work). If the user works there and typing `/` shows no `oliviaos` skill, install it: `claude plugin marketplace add botsarefuture/oliviaos-skill` then
 `claude plugin install oliviaos@oliviaos` (skill only, no second server).
 
+### The guard (every Claude Code setup)
+
+Also install the `oliviaos-guard` plugin (hooks only, no second server). It enforces the rules in every session and
+reports to the OliviaOS inbox:
+
+```bash
+claude plugin marketplace add botsarefuture/oliviaos-skill
+claude plugin install oliviaos-guard@oliviaos
+```
+
+If the user asked for the connector only, skip this step.
+
 ## Claude Code with an API key (no Claude account)
 
 ```bash

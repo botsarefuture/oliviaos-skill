@@ -33,6 +33,21 @@ npx -y skills add botsarefuture/oliviaos-skill --yes --global
 Skills over MCP is in beta and needs Claude Code 2.1.331 or later
 ([where Claude Code supports it](https://code.claude.com/docs/en/mcp#use-skills-from-mcp-servers)).
 
+## The guard (Claude Code)
+
+`oliviaos-guard` is a second plugin that enforces the OliviaOS rules in every Claude Code session: it blocks the hard
+stops, logs and reports every state change and every block to the OliviaOS inbox, keeps agents from asking permission
+for reversible work, and holds questions and notifications at night (23:00–08:00 Helsinki). It reads the rules live from
+the connector's `rules_get`. Install it next to the connector:
+
+```bash
+claude plugin marketplace add botsarefuture/oliviaos-skill
+claude plugin install oliviaos-guard@oliviaos
+```
+
+For a repository's cloud sessions, add to its `.claude/settings.json`:
+`{ "extraKnownMarketplaces": { "oliviaos": { "source": { "source": "github", "repo": "botsarefuture/oliviaos-skill" } } }, "enabledPlugins": { "oliviaos-guard@oliviaos": true } }`
+
 **Exactly one OliviaOS connection per app.** If there is an old or duplicate entry, remove it; never renew it:
 
 ```text
