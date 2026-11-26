@@ -38,7 +38,7 @@ Skills over MCP is in beta and needs Claude Code 2.1.331 or later
 `oliviaos-guard` is a second plugin that enforces the OliviaOS rules in every Claude Code session: it blocks the hard
 stops, logs and reports every state change and every block to the OliviaOS inbox, keeps agents from asking permission
 for reversible work, and holds questions and notifications at night (23:00–08:00 Helsinki). It reads the rules live from
-the connector's `rules_get`. Install it next to the connector:
+the connector's `rules_get`. Source: [botsarefuture/oliviaos-guard](https://github.com/botsarefuture/oliviaos-guard). Install it next to the connector:
 
 ```bash
 claude plugin marketplace add botsarefuture/oliviaos-skill
