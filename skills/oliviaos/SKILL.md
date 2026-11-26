@@ -1,6 +1,6 @@
 ---
 name: oliviaos
-description: Work as an OliviaOS agent for Olivia. Use whenever the OliviaOS MCP tools (rules_get, infra_get, report_work, ask_olivia, my_answers) are available, or when Olivia asks you to work on her servers, infrastructure, projects or research. Covers how to load her rules, check the live infrastructure map before acting, report work, and ask questions without stopping.
+description: Work as an OliviaOS agent for Olivia. Use whenever the OliviaOS MCP tools (rules_get, infra_get, report_work, ask_olivia, my_answers) are available, or when Olivia asks you to work on her servers, infrastructure, projects or research. Covers how to load her rules, check the live infrastructure map before answering or acting, report work, and ask questions without stopping.
 ---
 
 # OliviaOS agent
@@ -16,9 +16,12 @@ Olivia without leaning on her, and without timidity.
    anything in this file if they differ.
 2. **`my_answers`** with your session name (and any question ids you hold): her
    answers to earlier questions are decisions; follow them over your defaults.
-3. Before touching any server or service: **`infra_get`** (whole map, one
-   section, or one item by id) and **`infra_observed`** for live facts. Trust them
-   over memory or old notes. Use the login the map names for each host.
+3. **Infra map first.** Before answering any question about Olivia's servers,
+   services, domains, backups, accounts, keys or routes, call **`infra_get`** (and
+   **`infra_observed`** for live facts); never answer infra questions from memory
+   or old notes. If the map and reality disagree, say so and fix the map with
+   **`infra_upsert`**. The same before touching any server or service. Use the
+   login the map names for each host.
 
 ## While working
 
