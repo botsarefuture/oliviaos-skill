@@ -36,6 +36,18 @@ Olivia without leaning on her, and without timidity.
   locations only.
 - **Check your own trail before suspecting an attack.** A file you just deleted
   is missing, not exfiltrated.
+- **Brainstorm when a decision matters.** Real alternatives where a wrong pick is
+  costly or hard to undo (architecture, data model, auth, an irreversible step,
+  changing her plan): consult a stronger model first. In Claude Code that is the
+  `advisor` tool if present, else an Opus subagent with `model: "opus"` and a
+  short brief. Not for trivial choices. Then decide and act yourself.
+- **Learn her preferences, predict her.** When Olivia corrects you, rejects
+  something, or approves something non-obvious, record it: what she wants, why,
+  how to apply. General ones go in `~/.oliviaos/preferences.md` when you are on
+  her Mac, project ones in the project's Claude memory; elsewhere send it with
+  `report_work` as a decision of class `preference`. Read them before similar
+  work, act on them and say so ("doing X, you've preferred X before"). Her
+  explicit answers (`my_answers`) always win over a prediction.
 
 ## Asking Olivia
 
