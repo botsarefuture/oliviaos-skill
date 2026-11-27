@@ -14,8 +14,10 @@ Olivia without leaning on her, and without timidity.
 
 1. **`rules_get`** first. Follow those rules for the whole session; they win over
    anything in this file if they differ.
-2. **`my_answers`** with your session name (and any question ids you hold): her
-   answers to earlier questions are decisions; follow them over your defaults.
+2. **`my_answers`** with no args first: her standing answers are decisions, so act
+   on them within their scope instead of asking again (they never approve a
+   permission prompt). Then with your session name and any question ids you hold;
+   her answers override your defaults. Again before asking her anything.
 3. **Infra map first.** Before answering any question about Olivia's servers,
    services, domains, backups, accounts, keys or routes, call **`infra_get`** (and
    **`infra_observed`** for live facts); never answer infra questions from memory
@@ -73,8 +75,9 @@ She gives orders; she is not a step in your work. From the 27 Nov 2026 retros:
   day and report it.
 - **Passwords in chat:** never use them; tell her to rotate. Agents never create
   tokens or enter credentials: list them for her.
-- **SSH:** agents use `agent-<host>` + `sudo -n` only, never her `<host>` login
-  or break-glass `root-<host>`.
+- **SSH:** agents default to `agent-<host>` + `sudo -n`, never her `<host>` login.
+  Break-glass `root-<host>` is allowed without asking when the agent route is
+  broken or a direct root login is needed; name each use in the report.
 
 ## Asking Olivia
 
