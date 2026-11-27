@@ -1,6 +1,6 @@
 {
   "name": "oliviaos",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "The OliviaOS skill, for clients that do not get it from the connector. No MCP server: connect https://os-mcp.luova.club separately.",
   "author": {
     "name": "Olivia"
