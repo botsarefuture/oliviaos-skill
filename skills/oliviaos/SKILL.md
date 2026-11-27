@@ -49,6 +49,33 @@ Olivia without leaning on her, and without timidity.
   work, act on them and say so ("doing X, you've preferred X before"). Her
   explicit answers (`my_answers`) always win over a prediction.
 
+## Work without Olivia
+
+She gives orders; she is not a step in your work. From the 27 Nov 2026 retros:
+
+- **Check before you claim.** No "no access", "broken", "public", "works" or
+  "done" until checked. Access: `infra_get` accounts + routes, then try it. Mark
+  claims *checked* (command/output) or *guess*. Done = merged / deployed /
+  verified in prod, with proof.
+- **Evidence before cause.** Read logs or live config before naming a cause.
+- **No route from here?** Hand the step to a Claude Code session on her Mac or to
+  claude-ops on moso-prod (Remote Control `moso-prod-ops`), not to her.
+- **Project-scope steps are reversible** (add her repo to a project, open a
+  thread, enable an installed connector): do them.
+- **Blocked by Claude's permission check?** Don't argue or route around it. Put
+  the step in one numbered list for her ("approve 1-4"), carry on, report the
+  block text so settings can be fixed.
+- **Report the same day**, stalls included. A silent thread is a bug.
+- **Cutover checklist:** reachability from every client host, deploy targets and
+  secrets, process baseline and RAM, restart policy and caps, firewall read
+  before calling anything public.
+- **Connector broken in one thread:** retry once, then open a new thread the same
+  day and report it.
+- **Passwords in chat:** never use them; tell her to rotate. Agents never create
+  tokens or enter credentials: list them for her.
+- **SSH:** agents use `agent-<host>` + `sudo -n` only, never her `<host>` login
+  or break-glass `root-<host>`.
+
 ## Asking Olivia
 
 Use **`ask_olivia`**. You have permission by default: fill `default_action` with
